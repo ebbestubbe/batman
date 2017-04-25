@@ -4,6 +4,7 @@ import math
 # Auto-generated code below aims at helping you parse
 # the standard input according to the problem statement.
 def main():
+
     # w: width of the building.
     # h: height of the building.
     w, h = [int(i) for i in input().split()]
@@ -13,9 +14,11 @@ def main():
     xmin = 0
     xmax = w-1
     testingx = True
+    eprint(xmin)
+    eprint(xmax)
     turn = 0
     x = x0
-    
+    '''
     while True:
         
         bomb_dir = input()  # Current distance to the bomb compared to previous distance (COLDER, WARMER, SAME or UNKNOWN)
@@ -60,16 +63,22 @@ def main():
         eprint("current x: " + str(x))
         turn+=1
         if(turn==1):
-            m = (xmin+xmax-1)/2
+            #m = (xmin+xmax)/2
+            m = xmin + (xmax-xmin)/2
             xold = x
             x = x + 2*(m-x)
             eprint("initially jumpint to: " + str(x))
             print(int(x),int(y0))
+            continue
 
         
         if(testingx == True and turn>1):
-            m = (x + xold)/2 #The actual divider line
-            
+            #m = (x + xold-1)/2 #The actual divider line
+            dist = abs(x-xold)
+            if(dist%2 == 1):
+                dist -=1
+            m = min(x,xold) + (dist)/2
+            eprint("actual divider line: " + str(m))
             if(bomb_dir == "SAME"):
                 
                 xcorrect = m
@@ -91,7 +100,7 @@ def main():
             if(x > w - 1): x = w-1 
             eprint("corrected x: " + str(x))
             print(int(x),int(y0))        
-    '''  
+    
 def eprint(*args,**kwargs):
     print(*args,file=sys.stderr,**kwargs)
 
