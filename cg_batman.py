@@ -30,6 +30,12 @@ def main():
     x = x0
     y = y0
 
+    #xmin = int(m + m.is_integer()/2 + 0.5) :
+    #if the middle divider 'm' is directly at a window:
+        #we have to include the whole window directly at the left/right: offset 1.0
+    #if the middle divider 'm' is between two windows:
+        #we have to include the whole window directly at the left/right: offset 0.5
+
     while True:
         
         bomb_dir = input()  # Current distance to the bomb compared to previous distance (COLDER, WARMER, SAME or UNKNOWN)
@@ -48,36 +54,25 @@ def main():
         
         if(testingx == True and turn>1):
             m = min(x,xold) + (max(x,xold) - min(x,xold))/2         
-            mint = int(2*m)%2==0   
+            
             eprint("actual divider line x: " + str(m))
-            eprint("mint x" + str(mint))
             if(bomb_dir == "SAME"):
                 
                 xcorrect = m
                 eprint("correct x at: " + str(xcorrect))
                 testingx = False
             if(bomb_dir == "COLDER"):
-                if(x < xold): #moved left
-                    if(mint):
-                        xmin = int(m+1)
-                    if(not mint):
-                        xmin = int(m+0.5)
-                if(x > xold): #moved right
-                    if(mint):
-                        xmax = int(m-1)
-                    if(not mint):    
-                        xmax = int(m-0.5)
+                if(x < xold):
+                    xmin = int(m + m.is_integer()/2 + 0.5)
+                if(x > xold):
+                    xmax = int(m - m.is_integer()/2 - 0.5)
+                    
             if(bomb_dir == "WARMER"):
-                if(x < xold): #moved left
-                    if(mint):    
-                        xmax = int(m-1)
-                    if(not mint):
-                        xmax = int(m-0.5)
-                if(x > xold): #moved right
-                    if(mint):                
-                        xmin = int(m+1)
-                    if(not mint):
-                        xmin = int(m+0.5)
+                if(x < xold):
+                    xmax = int(m - m.is_integer()/2 - 0.5)
+                if(x > xold):
+                    xmin = int(m + m.is_integer()/2 + 0.5)
+                    
             if(xmin == xmax):
                 xcorrect = xmin
                 testingx = False
@@ -106,35 +101,24 @@ def main():
                 continue
             else:
                 m = min(y,yold) + (max(y,yold) - min(y,yold))/2         
-                mint = int(2*m)%2==0   
                 eprint("actual divider line y: " + str(m))
-                eprint("mint y: " + str(mint))
-                if(bomb_dir == "SAME"):
 
+                if(bomb_dir == "SAME"):
                     eprint("correct y at: " + str(m))
                     print(int(xcorrect),int(m))
+
                 if(bomb_dir == "COLDER"):
-                    if(y < yold): #moved left
-                        if(mint):
-                            ymin = int(m+1)
-                        if(not mint):
-                            ymin = int(m+0.5)
-                    if(y > yold): #moved right
-                        if(mint):
-                            ymax = int(m-1)
-                        if(not mint):    
-                            ymax = int(m-0.5)
+                    if(y < yold):
+                        ymin = int(m + m.is_integer()/2 + 0.5)                          
+                    if(y > yold):
+                        ymax = int(m - m.is_integer()/2 - 0.5)
+
                 if(bomb_dir == "WARMER"):
-                    if(y < yold): #moved left
-                        if(mint):    
-                            ymax = int(m-1)
-                        if(not mint):
-                            ymax = int(m-0.5)
-                    if(y > yold): #moved right
-                        if(mint):                
-                            ymin = int(m+1)
-                        if(not mint):
-                            ymin = int(m+0.5)
+                    if(y < yold):
+                        ymax = int(m - m.is_integer()/2 - 0.5)
+                    if(y > yold):
+                        ymin = int(m + m.is_integer()/2 + 0.5)
+                        
                 if(ymin == ymax):
                     print(int(xcorrect),int(ymin))
                     
